@@ -1,16 +1,55 @@
+'use client'
+
 import { Button } from "@/components/ui/button";
-
-
-
-
-
+import { useState } from "react";
 
 
 
 export default function Home() {
+  const [selectedCable, setSelectedCable] = useState(null)
+  const [selectedConduit, setSelectedConduit] = useState(null)
+  console.dir(selectedCable)
+  
+  const configFormula = (cable, conduit) => {
+
+    if(cable.CONDUCTOR_NUMBER === 1){
+      return 'single cable'
+    } else if(cable.CONDUCTOR_NUMBER === 2 ) {
+      return 'double cable'
+    } else {
+      // console.log(cable, conduit)
+    }
+
+  }
+
+ 
+  
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <Button variant="outline" >Testable</Button>
+      <select value={selectedCable} 
+              onChange={(e) => setSelectedCable(e.target.value)}>
+        {cableData.map((cable => 
+          <option key={cable.ID}
+                  value={cable.COLBI_ID}
+                  >
+                  {cable.SPEC_NAME}
+          </option>
+        ))
+        }
+      </select>
+      <select value={selectedConduit} 
+              onChange={(e) => setSelectedConduit(e.target.value)}>
+        {Conduits.map((cond => 
+          <option 
+          key={cond.INNER_CONDUIT_DIAMETER}
+          value={selectedConduit}>{cond.INNER_CONDUIT_DIAMETER}
+          </option>
+        ))}
+      </select>
+      <div>
+        Return: {configFormula(selectedCable, selectedConduit)}
+      </div>
     </div>
   );
 }
